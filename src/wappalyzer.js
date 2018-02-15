@@ -410,7 +410,10 @@ class Wappalyzer {
 
     if ( patterns.length ) {
       patterns.forEach(pattern => {
+	//chrome.extension.getBackgroundPage().console.log("Pattern: " + pattern);
+	//chrome.extension.getBackgroundPage().console.log("HTML: " + html);
         if ( pattern.regex.test(html) ) {
+          chrome.extension.getBackgroundPage().console.log("MATCH !");
           this.addDetected(app, pattern, 'html', html);
         }
       });
@@ -473,10 +476,12 @@ class Wappalyzer {
       Object.keys(patterns).forEach(headerName => {
         patterns[headerName].forEach(pattern => {
           headerName = headerName.toLowerCase();
-
+	chrome.extension.getBackgroundPage().console.log(headerName);
           if ( headerName in headers ) {
             headers[headerName].forEach(headerValue => {
+		chrome.extension.getBackgroundPage().console.log("Header " + headerName + "    --> " + headerValue);
               if ( pattern.regex.test(headerValue) ) {
+		chrome.extension.getBackgroundPage().console.log("HEADER MATCH");
                 this.addDetected(app, pattern, 'headers', headerValue, headerName);
               }
             });
